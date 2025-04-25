@@ -1,0 +1,78 @@
+import { useState } from "react";
+import { FaRocket, FaHourglassHalf, FaGift } from "react-icons/fa";
+
+export default function MiningComponent() {
+  return (
+    
+  );
+}
+
+
+
+
+// components/Footer.jsx
+import { FaFacebookF, FaTwitter, FaInstagram, FaLinkedinIn } from "react-icons/fa";
+
+export default function Footer() {
+  return (
+    <footer className="bg-gray-900 text-gray-300 py-10">
+      <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
+        {/* Logo / Branding */}
+        <div>
+          <h1 className="text-2xl font-bold text-white mb-4">MiningP</h1>
+          <p className="text-sm text-gray-400">
+            The best platform for crypto enthusiasts and miners to earn daily.
+          </p>
+        </div>
+
+        {/* Links Column 1 */}
+        <div>
+          <h2 className="text-white text-lg font-semibold mb-4">Company</h2>
+          <ul className="space-y-2">
+            <li><a href="#" className="hover:text-white">About Us</a></li>
+            <li><a href="#" className="hover:text-white">Careers</a></li>
+            <li><a href="#" className="hover:text-white">Press</a></li>
+          </ul>
+        </div>
+
+        {/* Links Column 2 */}
+        <div>
+          <h2 className="text-white text-lg font-semibold mb-4">Support</h2>
+          <ul className="space-y-2">
+            <li><a href="#" className="hover:text-white">Help Center</a></li>
+            <li><a href="#" className="hover:text-white">Contact Us</a></li>
+            <li><a href="#" className="hover:text-white">Terms & Privacy</a></li>
+          </ul>
+        </div>
+
+        {/* Links Column 3 */}
+        <div>
+          <h2 className="text-white text-lg font-semibold mb-4">Services</h2>
+          <ul className="space-y-2">
+            <li><a href="#" className="hover:text-white">Mining Plans</a></li>
+            <li><a href="#" className="hover:text-white">Affiliates</a></li>
+            <li><a href="#" className="hover:text-white">Rewards</a></li>
+          </ul>
+        </div>
+      </div>
+
+      {/* Divider */}
+      <div className="border-t border-gray-700 mt-10 pt-6">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
+          {/* Copyright */}
+          <p className="text-sm text-gray-400 mb-4 md:mb-0">
+            © {new Date().getFullYear()} MiningP. All rights reserved.
+          </p>
+
+          {/* Social Icons */}
+          <div className="flex space-x-4">
+            <a href="#" className="hover:text-white"><FaFacebookF /></a>
+            <a href="#" className="hover:text-white"><FaTwitter /></a>
+            <a href="#" className="hover:text-white"><FaInstagram /></a>
+            <a href="#" className="hover:text-white"><FaLinkedinIn /></a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
