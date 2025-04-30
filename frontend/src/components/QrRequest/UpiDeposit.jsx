@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import Qrgenerator from '../QrGenerator/Qrgenerator'
 import {FaRupeeSign,FaPenFancy,FaDollarSign } from "react-icons/fa"
 import Logout from '../Logout'
+import Btn from '../Btn'
 const UpiDeposit = ({amount}) => {
   const [utr,setUTR]=useState("")
   return (
@@ -32,7 +33,7 @@ const UpiDeposit = ({amount}) => {
               onChange={(e)=>setUTR(e.target.value)}
               />
              </div>
-             <Logout title="Send request"/>
+             <Btn title="Send request"/>
              
     </div>
     </div>

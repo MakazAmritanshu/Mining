@@ -1,6 +1,6 @@
 import React,{useState} from 'react'
 import {FaRupeeSign,FaPenFancy } from "react-icons/fa"
-import Logout from './Logout'
+import Btn from './Btn'
 const DepositAmount = ({onSubmit}) => {
   const [amount , setAmount]=useState("")
 
@@ -46,7 +46,7 @@ const DepositAmount = ({onSubmit}) => {
         />
       </div>
       <div onClick={handleSubmit}>
-        <Logout title="Submit" />
+        <Btn title="Submit" />
       </div>
     </div>
   )

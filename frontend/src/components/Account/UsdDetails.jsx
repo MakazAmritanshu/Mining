@@ -1,6 +1,6 @@
 import React from 'react'
 import { IoWallet } from "react-icons/io5";
-import Logout from '../Logout';
+import Btn from '../Btn';
 const UsdDetails = () => {
   return (
     <div>
@@ -20,7 +20,7 @@ const UsdDetails = () => {
                 placeholder="TRC 20 Address"
                 className='w-full rounded-lg bg-[#13B8A7] p-3'/>
             </div>
-            <Logout title="Add Address"/>
+            <Btn title="Add Address"/>
 
         </div>
     </div>

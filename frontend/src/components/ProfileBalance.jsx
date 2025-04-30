@@ -22,12 +22,12 @@ const ProfileBalance = () => {
         </div>
         <div className='flex justify-around items-center mt-4 cursor-pointer '>
             <div className='flex flex-col p-2 rounded-4xl bg-[#EAEBED] w-35 h-30 justify-center items-center'
-            onClick={()=>navigate('/deposit')}>
+            onClick={()=>navigate('/profile/deposit')}>
                 <img src={depositIcon} alt="" className='w-15 h-15' />
                 <span className='mx-1'>Deposit</span>
             </div>
             <div className='flex flex-col p-2 rounded-4xl bg-[#EAEBED] w-35 h-30 justify-center items-center cursor-pointer'
-            onClick={()=>navigate('/withdraw')}>
+            onClick={()=>navigate('/profile/withdraw')}>
                 <img src="..\src\assets\icon\Withdraw.png" alt="" className='w-15 h-15' />
                 <span className='mx-0'>Withdraw</span>
             </div>

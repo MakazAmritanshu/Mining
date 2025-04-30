@@ -5,6 +5,7 @@ import {FaRupeeSign,FaPenFancy } from "react-icons/fa"
 import { BsPlusSquareDotted } from "react-icons/bs";
 import { IoLogoUsd } from "react-icons/io";
 import Logout from '../Logout';
+import Btn from '../Btn';
 import { useNavigate } from 'react-router-dom'
 
 const usdDetail=[
@@ -71,7 +72,7 @@ const AddUsdtAccount = () => {
                   className='bg-transparent outline-none placeholder:text-gray-400 w-xl'
                   placeholder='Enter Password'/>
                   </div>
-                  <Logout title="Withdraw"/>
+                  <Btn title="Withdraw"/>
             </div>
         </div>
         

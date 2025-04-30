@@ -2,11 +2,11 @@ import React from 'react'
 import { FaGift, FaLock, FaUserCircle, FaCube, FaCog, FaChevronRight } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 const menuItems = [
-  { icon: <FaGift className="text-teal-500" />, label: 'Gifts',navigateto:'/support' },
-  { icon: <FaLock className="text-teal-500" />, label: 'Change Password',navigateto:'/support' },
-  { icon: <FaUserCircle className="text-teal-500" />, label: 'Customer Support Online 24/7',navigateto:'/support' },
-  { icon: <FaCube className="text-teal-500" />, label: 'About',navigateto:'/support' },
-  { icon: <FaCog className="text-teal-500" />, label: 'Settings',navigateto:'/support' },
+  { icon: <FaGift className="text-teal-500" />, label: 'Gifts',navigateto:'/profile/support' },
+  { icon: <FaLock className="text-teal-500" />, label: 'Change Password',navigateto:'/profile/support' },
+  { icon: <FaUserCircle className="text-teal-500" />, label: 'Customer Support Online 24/7',navigateto:'/profile/support' },
+  { icon: <FaCube className="text-teal-500" />, label: 'About',navigateto:'/profile/support' },
+  { icon: <FaCog className="text-teal-500" />, label: 'Settings',navigateto:'/profile/support' },
 ];
 
 const Services = () => {

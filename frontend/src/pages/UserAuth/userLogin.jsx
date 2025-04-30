@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import { UserDataContext } from "../../Context/UserContext";
 import { Eye, EyeOff } from "lucide-react";
+import {toast}  from 'react-toastify'
 
 const UserLogin = () => {
   const [mobileNumber, setMobileNumber] = useState("");
@@ -51,15 +52,17 @@ const UserLogin = () => {
       console.log("Response", data);
       localStorage.setItem("token", data.token);
       setUser(data.user);
-      navigate("/home");
+      if(response.status==200){
+        toast.success("Login Successfully")
+        navigate("/home");
+
+      }
+ 
     } catch (error) {
       console.log(`The error is `, error);
     }
 
-    // Clear form fields
-    // setMobileNumber("");
-    // setPassword("");
-    // setAgreed(false);
+  
   };
 
   return (

@@ -2,6 +2,7 @@ import React from 'react'
 import {FaRupeeSign,FaPenFancy,FaDollarSign } from "react-icons/fa"
 import UsdtQrGenerator from '../QrGenerator/UsdtQrGenerator'
 import Logout from '../Logout'
+import Btn from '../Btn'
 const UsdtDeposit = ({usdamount}) => {
   return (
     <div className='bg-white items-center justify-center p-4 rounded-3xl  mt-4 shadow-lg mx-4'>
@@ -39,7 +40,7 @@ const UsdtDeposit = ({usdamount}) => {
             //   onChange={(e)=>setUTR(e.target.value)}
               />
              </div>
-             <Logout title="Send request"/>
+             <Btn title="Send request"/>
              
     </div>
     </div>

@@ -19,7 +19,7 @@ const Footer = () => {
           <TiHome className='w-10 h-10 text-[#13B8A7]' onClick={() => navigate('/home')}/>
           {/* <img src="..\src\assets\icon\Account.png" alt="Account" className='w-10 h-10 mt-2'
           onClick={() => navigate('/account')} /> */}
-          <MdAccountCircle className={`w-10 h-10 text-[#13B8A7]`} onClick={() =>navigate('/account')}/>
+          <MdAccountCircle className={`w-10 h-10 text-[#13B8A7]`} onClick={() =>navigate('/profile')}/>
         </div>
       </div>
     </div>
