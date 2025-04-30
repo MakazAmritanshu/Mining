@@ -99,8 +99,8 @@ module.exports.loginUser = async (req, res, next) => {
     // Set HTTP-only cookie
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      secure: false,
+      sameSite: "Lax",
     });
 
     // Respond
@@ -111,12 +111,20 @@ module.exports.loginUser = async (req, res, next) => {
   }
 };
 
-// ====================
+
 // Get User Profile
-// ====================
+
 module.exports.getUserProfile = async (req, res) => {
   try {
-    // req.user is set by auth middleware
+    const userId=req.user.id;
+    console.log("The user id is",userId)
+    //select is used to selct only multiple fields from the user
+    const user = await User.findById(userId).select(
+      "balance superCoin miningRate withdrawableAmount activeAccounts"
+    );
+    console.log("The user details",user)
+
+  
     return res.status(200).json(req.user);
   } catch (error) {
     console.error("Error fetching user profile:", error);
@@ -124,15 +132,47 @@ module.exports.getUserProfile = async (req, res) => {
   }
 };
 
-// ====================
-// Logout User
-// ====================
-module.exports.logoutUser = async (req, res, next) => {
-  try {
-    res.clearCookie("token");
-    return res.status(200).json({ message: "Logged out successfully" });
-  } catch (error) {
-    console.error("Error during logout:", error);
-    next(error);
+//Add a activeAccounts
+
+module.exports.addBankAccount=async(req,res)=>{
+  try{
+    const{bankName,accountNumber,ifsc,upId}=req.body;
+    const userId=req.user._id;
+    const user=await User.findById(userId);
+
+    const existingUser=await User.findOne({'active.accountNumber':accountNumber});
+    return res.status(401).json({message:'BankAccount already exist'})
+
+    if(user.bankName && user.accountNumber){
+      return res.status(400).json({message:'User already present'})
+    }
+    user.activeAccounts={
+      bankName,
+      accountNumber,
+      ifsc,
+      upId
+    }
+    await user.save();
+    res.status(200).json({message:'User Bank account added Successfully'});
+    
+
+
   }
-};
+  catch(error){
+    console.log("The bank is not added",error);
+    return res.status(500).json({message:'The bank is not added'})
+  }
+ 
+}
+
+
+
+
+// Logout User
+
+module.exports.logoutUser = async (req, res, next) => {
+  res.clearCookie('token');
+  const token = req.cookies.token || req.headers.authorization.split(' ')[ 1 ];
+   res.status(200).json({ message: 'Logged out' });
+
+}

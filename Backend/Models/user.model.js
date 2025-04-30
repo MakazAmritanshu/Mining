@@ -34,6 +34,32 @@ const userSchema = new mongoose.Schema(
       default: null,
     },
 
+    //Financial fields
+    balance: {
+      type: Number,
+      default: 0,
+    },
+    miningRate: {
+      type: Number,
+      default: 0,
+    },
+    withdrawableAmount: {
+      type: Number,
+      default: 0,
+    },
+    superCoin: {
+      type: Number,
+      default: 0,
+    },
+
+    // Active bank account (Reference to BankDetail Model)
+    activeAccounts: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "BankDetail", // Reference to BankDetail model
+      },
+    ],
+
     otpHash: {
       type: String,
     },
@@ -41,7 +67,6 @@ const userSchema = new mongoose.Schema(
     otpExpiresAt: {
       type: Date, // NO auto-delete anymore, manual expiry check only(always prefer manual expiry check)
     },
-
 
     isOtpVerified: {
       type: Boolean,

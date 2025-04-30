@@ -5,11 +5,12 @@ dotenv.config();
 const connectDB = require("./db/db");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-const userRoutes = require("./Routes/user.routes");
-const otpRoutes
-=require("./routes/otp.routes")
+const userRoutes = require("./routes/user.routes");
+const otpRoutes = require("./routes/otp.routes");
+const transactionRoutes = require("./routes/transaction.routes");
+const bankRoutes=require('./routes/bank.detail.routes')
 const PORT = process.env.PORT || 5000;
-console.log("MONGO_URI:", process.env.MONGO_URI);
+
 
 //Set up all the middleware
 app.use(express.json());
@@ -30,8 +31,9 @@ app.use((req, res, next) => {
 //Set Up all the routes
 
 app.use("/users", userRoutes);
-app.use('/otp',otpRoutes)
-
+app.use("/otp", otpRoutes);
+app.use("/transactions", transactionRoutes);
+app.use('/bank',bankRoutes);
 app.get("/", (req, res) => {
   res.send(`Hello from the server`);
 });
