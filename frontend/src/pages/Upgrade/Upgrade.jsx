@@ -1,9 +1,10 @@
 import React from 'react'
 import MiningCard from '../../components/MiningCard'
+import InvidiaCard from '../../components/InvidiaCard'
 const Upgrade = () => {
   return (
-    <div className="flex justify-center  min-h-screen relative">
-      <div className='bg-white rounded-4xl mt-28 p-6'>
+    <div className="flex justify-center  min-h-screen ">
+      <div className='bg-white rounded-4xl mt-28 p-6 relative'>
         <div className='pt-10'>
           <h3 className='text-center text-2xl font-semibold'>Upgrade</h3>
           <p className='mt-1 text-center text-[16px] text-gray-500 mx-6'>Upgrade mining Rig, Time, and Speed to generate more coins</p>
@@ -47,12 +48,16 @@ const Upgrade = () => {
           costPoints={3000}
           disabled={true} 
           />
+          
         </div>
-
-      </div>
-      <div className='absolute top-[9%] left-[34%] transform -translate-y-1/2'>
+        <div>
+          <InvidiaCard/>
+        </div>
+        <div className='absolute top-[0%] left-[34%] transform -translate-y-1/2'>
         <img src="..\src\assets\icon\update.png" alt="" />
       </div>
+      </div>
+      
     </div>
   )
 }

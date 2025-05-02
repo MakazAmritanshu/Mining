@@ -30,7 +30,7 @@ const AddUsdtAccount = () => {
     <div className='flex flex-col'>
         <div className='mt-4 flex justify-center'>
             <BsPlusSquareDotted className='w-15 h-15'
-            onClick={()=>navigate('/usddetails')}/>
+            onClick={()=>navigate('/profile/usddetails')}/>
         </div>
         <div className='flex flex-col justify-center items-center'>
             <span>Add Address</span>

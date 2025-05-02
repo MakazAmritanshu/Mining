@@ -1,9 +1,9 @@
 import React from "react";
-
+import timer from "../assets/icon/timerr.png"
 const IncMiningTime = ({ onClose }) => {
   return (
-    <div className="fixed inset-0 bg-black/10 backdrop-blur-none flex items-center justify-center z-50">
-      <div className="relative bg-white rounded-2xl w-[90%] max-w-sm p-6 text-center shadow-xl">
+    <div className="fixed inset-0 bg-black/10 backdrop-blur-none flex items-center justify-center z-50 ">
+      <div className="relative bg-white rounded-2xl w-[90%]  max-w-[340px] pb-2 px-4 text-center shadow-xl">
         <button
           onClick={onClose}
           className="absolute top-3 right-3 text-2xl font-bold text-gray-400 hover:text-gray-600"
@@ -11,9 +11,9 @@ const IncMiningTime = ({ onClose }) => {
           &times;
         </button>
         <img
-          src="/timer.png" // Replace with your rocket image path
+          src={timer} 
           alt="Timer"
-          className="w-20 mx-auto mb-4 animate-bounce"
+          className="w-30 mx-auto animate-bounce"
         />
         <h2 className="text-xl font-semibold mb-2">Increase Mining Time</h2>
         <p className="text-gray-600 mb-1">
