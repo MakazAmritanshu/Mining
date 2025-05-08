@@ -14,6 +14,7 @@ import Support from "./pages/CustomerSupport/Support";
 import Promotion from "./pages/Promotion/Promotion";
 import Footer from "./components/Footer";
 import Footer1 from "./components/Footer1";
+import TeamList from "./pages/TeamList/TeamList"
 
 import UserRegister from "./pages/UserAuth/userRegister";
 import UserLogin from "./pages/UserAuth/userLogin";
@@ -34,6 +35,7 @@ const App = () => {
         draggable
         pauseOnHover
       />
+      {/* bg-[#EAEBED] */}
       <div className="w-full max-w-[370px]  flex flex-col min-h-screen  shadow-lg bg-[#EAEBED]">
         <main className="flex-grow overflow-y-auto hide-scrollbar">
           <Routes>
@@ -118,6 +120,14 @@ const App = () => {
               element={
                 <UserProtectedWrapper>
                   <Support />
+                </UserProtectedWrapper>
+              }
+            />
+            <Route
+              path="/profile/myteam"
+              element={
+                <UserProtectedWrapper>
+                  <TeamList />
                 </UserProtectedWrapper>
               }
             />

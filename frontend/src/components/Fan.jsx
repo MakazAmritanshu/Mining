@@ -17,7 +17,8 @@ const Fan = ({rotate,setRotate,duration,setDuration,handleClick}) => {
         transition={{ repeat: Infinity, duration, ease: "linear" }}
         onClick={handleClick}
       >
-        <BsFan className='text-5xl text-teal-500 w-62 h-62' />
+        {/* text-teal-500 */}
+        <BsFan className='text-5xl  text-[#009494] w-62 h-62' />
       </motion.div>
     </div>
   )

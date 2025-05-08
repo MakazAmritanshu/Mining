@@ -1,18 +1,36 @@
 const transactionService = require("../services/transaction.service");
 const Transaction = require("../Models/transaction.model");
+const User=require('../Models/user.model');
 
 module.exports.addDeposit = async (req, res) => {
   try {
     const { amount, method, accountDetails } = req.body;
     const user = req.user;
 
-    // service to handle deposit logic
+    // Create deposit transaction
     const newTransaction = await transactionService.addDepositService(
       user,
       amount,
       method,
       accountDetails
     );
+
+    //Referral logic on first deposit 
+    if(user.referredBy  && !user.hasDeposited){
+      //3.Build Referral tree
+      await User.buildReferralTreeForNewUser(user);
+
+      //4 Distribute referral ernings
+      await User.distributeToUplines(user.referralCode,amount);
+
+      //5-> Mark as deposited
+      user.hasDeposited=true;
+      await user.save();
+
+      
+
+    }
+
 
     return res.status(201).json({
       message: "Deposit transaction created",

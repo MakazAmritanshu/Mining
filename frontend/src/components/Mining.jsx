@@ -53,22 +53,25 @@ const Mining = () => {
       {/* Top Icons */}
       <div 
       onClick={()=>setincMining(true)}
-      className="absolute top-4 left-4 bg-gray-100 rounded-full p-3 shadow">
-        <FaHourglassHalf className="text-xl text-black" />
+      // bg-gray-100
+      className="absolute top-4 left-4  bg-[#009494] rounded-full p-3 shadow">
+        {/* text-black */}
+        <FaHourglassHalf className="text-xl text-white " />
       </div>
       <div
       onClick={() => setShowPopup(true)}
-       className="absolute top-4 right-4 bg-black rounded-full p-3 shadow">
+      // bg-black
+       className="absolute top-4 right-4  bg-[#009494] rounded-full p-3 shadow">
         <FaRocket className="text-xl text-white" />
       </div>
 
       {/* Start Mining Button */}
       <div className="relative my-8 flex items-center justify-center">
-          {/* Outer circle 2 */}
-          <div className="absolute w-80 h-80 rounded-full border-4 bg-teal-100 border-none"></div>
+          {/* Outer circle 2 bg-teal-100 */}
+          <div className="absolute w-80 h-80 rounded-full border-4 bg-[#b8f4f4] border-none"></div>
 
-          {/* Outer circle 1 */}
-          <div className="absolute w-72 h-72 rounded-full border-4 bg-teal-200 border-none"></div>
+          {/* Outer circle 1  bg-teal-200 */}
+          <div className="absolute w-72 h-72 rounded-full border-4 bg-[#88E2E2] border-none"></div>
 
           {/* Main inner circle */}
           <div onClick={handleClick}
@@ -79,7 +82,8 @@ const Mining = () => {
             duration={duration}
             setDuration={setDuration}
             handleClick={handleClick}/>:
-            <div className=' w-64 h-64 rounded-full bg-teal-500 flex justify-center items-center text-white text-center shadow-lg z-10'>
+            // bg-teal-500
+            <div className=' w-64 h-64 rounded-full bg-[#009494] flex justify-center items-center text-white text-center shadow-lg z-10'>
               <div>
               <p className="text-sm uppercase tracking-widest">Click Here To</p>
               <p className="text-2xl font-bold mt-1">Start Mining</p></div>
@@ -92,10 +96,11 @@ const Mining = () => {
           </div>
        </div>
 
-      {/* Popup */}
-      {showPopup && <PopupCard onClose={() => setShowPopup(false)} />}
-      {incMining && <IncMiningTime onClose={() => setincMining(false)} />}
-    </div>
+       {/* Popup */}
+       {showPopup && <PopupCard onClose={() => setShowPopup(false)} />}
+       {incMining && <IncMiningTime onClose={() => setincMining(false)} />}
+      </div>
+      
     </div>
   )
 }

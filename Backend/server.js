@@ -9,6 +9,7 @@ const userRoutes = require("./routes/user.routes");
 const otpRoutes = require("./routes/otp.routes");
 const transactionRoutes = require("./routes/transaction.routes");
 const bankRoutes=require('./routes/bank.detail.routes')
+const referralRoutes=require('./routes/referral.routes')
 const PORT = process.env.PORT || 5000;
 
 
@@ -31,6 +32,7 @@ app.use((req, res, next) => {
 //Set Up all the routes
 
 app.use("/users", userRoutes);
+app.use('/referral',referralRoutes)
 app.use("/otp", otpRoutes);
 app.use("/transactions", transactionRoutes);
 app.use('/bank',bankRoutes);

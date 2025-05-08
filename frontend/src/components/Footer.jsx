@@ -13,13 +13,14 @@ const Footer = () => {
         <div className="bg-[#ffffff] h-13 w-full rounded-t-2xl shadow-md flex justify-around items-center">
           {/* <img src="..\src\assets\icon\promo.png" alt="promotion" className='w-10 h-10 mt-2'
           onClick={() => navigate('/upgrade')} /> */}
-          <IoIosSpeedometer className='w-10 h-10 text-[#13B8A7]' onClick={() => navigate('/upgrade')} />
+          {/* text-[#13B8A7] */}
+          <IoIosSpeedometer className='w-10 h-10 text-[#009494]' onClick={() => navigate('/upgrade')} />
           {/* <img src="..\src\assets\icon\home.png" alt="Home" className='w-10 h-10 mt-2'
           onClick={() => navigate('/')} /> */}
-          <TiHome className='w-10 h-10 text-[#13B8A7]' onClick={() => navigate('/home')}/>
+          <TiHome className='w-10 h-10 text-[#009494]' onClick={() => navigate('/home')}/>
           {/* <img src="..\src\assets\icon\Account.png" alt="Account" className='w-10 h-10 mt-2'
           onClick={() => navigate('/account')} /> */}
-          <MdAccountCircle className={`w-10 h-10 text-[#13B8A7]`} onClick={() =>navigate('/profile')}/>
+          <MdAccountCircle className={`w-10 h-10 text-[#009494]`} onClick={() =>navigate('/profile')}/>
         </div>
       </div>
     </div>

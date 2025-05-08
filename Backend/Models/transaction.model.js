@@ -93,13 +93,10 @@ const transactionSchema = new mongoose.Schema(
       default: 0,
     },
 
-    // Mining related
-    miningRate: {
-      type: Number,
-      default: 0,
-    },
+  
+   
 
-    minedAt: Date,
+ 
 
     userNote: {
       type: String,

@@ -20,114 +20,271 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       minlength: [6, "Password must be at least 6 characters long"],
-      required: false,
     },
 
     referralCode: {
       type: String,
       unique: true,
-      sparse: true,
+   
+
+      index: true,
     },
 
     referredBy: {
       type: String,
-      default: null,
+
+      index: true,
+      validate: {
+        validator: async function (v) {
+          if (!v || v === this.referralCode) return false;
+
+          // Prevent circular referrals
+          let current = v;
+          let level = 0;
+          while (current && level < 10) {
+            const user = await mongoose.models.User.findOne({
+              referralCode: current,
+            });
+            if (!user || user.referredBy === this.referralCode) return false;
+            current = user.referredBy;
+            level++;
+          }
+          return true;
+        },
+        message: () => `Invalid or circular referral detected`,
+      },
     },
 
-    //Financial fields
+    referralTree: {
+      type: Map,
+      of: [String],
+      default: {},
+    },
+
+    referralEarnings: {
+      type: Map,
+      of: Number,
+      default: {},
+    },
+
+    referralCount: {
+      type: Map,
+      of: Number,
+      default: {},
+    },
+
+    referralTransactions: [
+      {
+        fromReferralCode: String,
+        amount: Number,
+        level: Number,
+        date: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
+
+    totalReferralEarning: {
+      type: Number,
+      default: 0,
+    },
+
+    totalMiningEarning: {
+      type: Number,
+      default: 0,
+    },
+
+    totalEarning: {
+      type: Number,
+      default: 0,
+    },
+
     balance: {
       type: Number,
       default: 0,
     },
-    miningRate: {
-      type: Number,
-      default: 0,
+
+    hasDeposited: {
+      type: Boolean,
+      default: false,
     },
+
     withdrawableAmount: {
       type: Number,
       default: 0,
     },
+
     superCoin: {
       type: Number,
       default: 0,
     },
 
-    // Active bank account (Reference to BankDetail Model)
-    activeAccounts: [
+    miningRate: {
+      type: Number,
+      default: 0,
+    },
+
+    ownedGpus: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "BankDetail", // Reference to BankDetail model
+        ref: "GpuCard",
       },
     ],
 
-    otpHash: {
-      type: String,
-    },
-
-    otpExpiresAt: {
-      type: Date, // NO auto-delete anymore, manual expiry check only(always prefer manual expiry check)
-    },
-
-    isOtpVerified: {
-      type: Boolean,
-      default: false,
-    },
-
-    isBlocked: {
-      type: Boolean,
-      default: false,
-    },
-
-    role: {
-      type: String,
-      enum: ["user", "admin"],
-      default: "user",
-    },
+    otpHash: String,
+    otpExpiresAt: Date,
+    isOtpVerified: { type: Boolean, default: false },
+    isBlocked: { type: Boolean, default: false },
+    role: { type: String, enum: ["user", "admin"], default: "user" },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
-// Generate OTP
+// OTP logic
 userSchema.methods.generateOtp = function () {
-  const otp = Math.floor(100000 + Math.random() * 900000).toString(); // Generate 6-digit OTP
-  this.otpHash = crypto.createHash("sha256").update(otp).digest("hex"); // Hash the OTP
-  this.otpExpiresAt = new Date(Date.now() + 5 * 60 * 1000); // OTP valid for 5 minutes
-  return otp; // Return plain OTP for sending via SMS
+  const otp = Math.floor(100000 + Math.random() * 900000).toString();
+  this.otpHash = crypto.createHash("sha256").update(otp).digest("hex");
+  this.otpExpiresAt = new Date(Date.now() + 5 * 60 * 1000);
+  return otp;
 };
 
-// Verify OTP
 userSchema.methods.verifyOtp = function (otp) {
   const otpHash = crypto.createHash("sha256").update(otp).digest("hex");
-  if (this.otpHash !== otpHash) {
+  if (this.otpHash !== otpHash)
     return { success: false, message: "Invalid OTP" };
-  }
-  if (this.otpExpiresAt < new Date()) {
+  if (this.otpExpiresAt < new Date())
     return { success: false, message: "OTP has expired" };
-  }
   this.isOtpVerified = true;
-
   return { success: true, message: "OTP verified successfully" };
 };
 
-// Hash password
+// Step 1: Build Referral Tree
+userSchema.statics.buildReferralTreeForNewUser = async function (user) {
+  const User = this;
+  let currentReferral = user.referredBy;
+  let level = 1;
+
+  while (level <= 10 && currentReferral) {
+    const upline = await User.findOne({ referralCode: currentReferral });
+    if (!upline) break;
+
+    const tree = upline.referralTree.get(level.toString()) || [];
+    tree.push(user.referralCode);
+    upline.referralTree.set(level.toString(), tree);
+
+    const count = upline.referralCount.get(level.toString()) || 0;
+    upline.referralCount.set(level.toString(), count + 1);
+
+    await upline.save();
+    currentReferral = upline.referredBy;
+    level++;
+  }
+};
+
+// Step 2: Distribute Earnings
+userSchema.statics.distributeToUplines = async function (
+  userReferralCode,
+  totalAmount
+) {
+  const User = this;
+  const levelPercentages = {
+    1: 0.1,
+    2: 0.05,
+    3: 0.02,
+    4: 0.01,
+    5: 0.005,
+    6: 0.005,
+    7: 0.005,
+    8: 0.005,
+    9: 0.002,
+    10: 0.002,
+  };
+
+  // Find the depositor
+  const depositor = await User.findOne({ referralCode: userReferralCode });
+  let currentReferral = depositor ? depositor.referredBy : null;
+  let level = 1;
+
+  while (level <= 10 && currentReferral) {
+    const uplineUser = await User.findOne({ referralCode: currentReferral });
+    if (!uplineUser) break;
+
+    const percentage = levelPercentages[level] || 0;
+    const earning = Math.floor(totalAmount * percentage);
+    if (earning > 0) {
+      uplineUser.addReferralEarningAtLevel(level, earning);
+      uplineUser.referralTransactions.push({
+        fromReferralCode: userReferralCode,
+        amount: earning,
+        level,
+      });
+      await uplineUser.save();
+    }
+
+    currentReferral = uplineUser.referredBy;
+    level++;
+  }
+};
+
+// Step 3: Add Earnings at Level
+userSchema.methods.addReferralEarningAtLevel = function (level, amount) {
+  const current = this.referralEarnings.get(level.toString()) || 0;
+  const updated = current + amount;
+
+  this.referralEarnings.set(level.toString(), updated);
+  this.totalReferralEarning += amount;
+  this.balance += amount;
+  this.calculateTotalEarnings();
+};
+
+// Step 4: Get Referral Stats
+userSchema.methods.getReferralStats = function () {
+  const stats = [];
+  for (let i = 1; i <= 10; i++) {
+    const level = i.toString();
+    stats.push({
+      level: i,
+      referrals: this.referralTree.get(level)?.length || 0,
+      earnings: this.referralEarnings.get(level) || 0,
+    });
+  }
+
+  return {
+    totalReferrals: this.referralTree,
+    totalReferralEarning: this.totalReferralEarning,
+    totalEarning: this.totalEarning,
+    levels: stats,
+  };
+};
+
+userSchema.methods.getDownlineAtLevel = function (level) {
+  return this.referralTree.get(level.toString()) || [];
+};
+
+// Calculate total earnings
+userSchema.methods.calculateTotalEarnings = function () {
+  this.totalEarning = this.totalMiningEarning + this.totalReferralEarning;
+  return this.totalEarning;
+};
+
 userSchema.statics.hashPassword = async function (password) {
   return await bcrypt.hash(password, 10);
 };
 
-// Generate JWT token
+userSchema.methods.comparePassword = async function (password) {
+  return await bcrypt.compare(password, this.password);
+};
+
 userSchema.methods.generateAuthToken = function () {
   return jwt.sign({ _id: this._id }, process.env.JWT_SECRET, {
     expiresIn: "24h",
   });
 };
 
-// Compare password
-userSchema.methods.comparePassword = async function (password) {
-  return await bcrypt.compare(password, this.password);
+userSchema.statics.generateReferralCode = function () {
+  return crypto.randomBytes(3).toString("hex").toUpperCase();
 };
 
-// Prevent model overwrite
 const User = mongoose.models.User || mongoose.model("User", userSchema);
 module.exports = User;

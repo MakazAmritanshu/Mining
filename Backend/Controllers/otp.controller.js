@@ -52,6 +52,7 @@ module.exports.verifyOtp = async (req, res) => {
     if (!user) {
       return res.status(400).json({ message: "User not found" });
     }
+ 
 
     // Verify OTP
     const otpResult = user.verifyOtp(otp);

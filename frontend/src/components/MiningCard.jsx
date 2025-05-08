@@ -26,7 +26,7 @@ const MiningCard = ({
                 <img src="..\src\assets\icon\usdt.png" alt="" className='w-5 h-5'/>&nbsp;{costPoints}
                 </span>
               </div>
-              <button className='bg-[#13B8A7] rounded-xl h-12 w-25 text-gray-500 font-semibold'>Upgrade</button>
+              <button className='bg-[#13B8A7] bg-[#009494] rounded-xl h-12 w-25 text-gray-500 font-semibold'>Upgrade</button>
             </div>
             <div className='absolute top-[-3%] left-[45%] transform -translate-y-1/2'>
               <img src="..\src\assets\icon\usdt.png" alt="" />

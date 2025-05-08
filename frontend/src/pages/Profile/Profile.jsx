@@ -5,14 +5,14 @@ import History from '../../components/History';
 import Services from '../../components/Services';
 import Logout from '../../components/Logout';
 import ProfileBalance from '../../components/ProfileBalance';
-
+import RefferalCode from '../../components/RefferalCode';
 function Profile() {
   const { user } = useContext(UserDataContext);
 
   if (!user) {
     return <div>Loading...</div>;
   }
-
+console.log(user.referralCode)
   return (
     <div>
       <div className='flex justify-between m-4'>
@@ -24,6 +24,7 @@ function Profile() {
       </div>
       <ProfileBalance />
       <History />
+      <RefferalCode code={user.referralCode}/>
       <Services />
       <Logout title="Log out" />
     </div>
