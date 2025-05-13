@@ -124,6 +124,10 @@ const userSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    isActive:{
+      type:Boolean,
+      default:true
+    },
 
     ownedGpus: [
       {
@@ -276,11 +280,16 @@ userSchema.methods.comparePassword = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
-userSchema.methods.generateAuthToken = function () {
-  return jwt.sign({ _id: this._id }, process.env.JWT_SECRET, {
-    expiresIn: "24h",
-  });
-};
+// Generate access token for user
+userSchema.methods.generateAccessToken = function() {
+  const accessToken = jwt.sign({ id: this._id, role: 'user' }, process.env.JWT_SECRET, { expiresIn: '15m' });
+  return accessToken;
+}
+//Generate refresh token for user
+userSchema.methods.generateRefreshToken=function(){
+  const refreshToken=jwt.sign({id:this._id,role:'user'},process.env.JWT_REFRESH_SECRET,{expiresIn:'30d'});
+  return refreshToken;
+}
 
 userSchema.statics.generateReferralCode = function () {
   return crypto.randomBytes(3).toString("hex").toUpperCase();

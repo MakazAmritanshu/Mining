@@ -1,0 +1,168 @@
+Here is the complete README content for the admin routes, formatted for easy copying:
+
+---
+
+# Admin Routes Documentation
+
+This document provides an overview of all the admin routes in the application, including their endpoints, HTTP methods, required request bodies, and descriptions.
+
+---
+
+## **1. Refresh Token**
+- **Endpoint**: `/admin/refresh-token`
+- **Method**: `POST`
+- **Request Body**: None
+- **Description**: Refreshes the admin's access token.
+
+---
+
+## **2. Admin Registration**
+- **Endpoint**: `/admin/register`
+- **Method**: `POST`
+- **Request Body**:
+  ```json
+  {
+    "name": "string",
+    "mobileNumber": "string",
+    "password": "string"
+  }
+  ```
+- **Description**: Registers a new admin.
+
+---
+
+## **3. Admin Login**
+- **Endpoint**: `/admin/login`
+- **Method**: `POST`
+- **Request Body**:
+  ```json
+  {
+    "mobileNumber": "string",
+    "password": "string"
+  }
+  ```
+- **Description**: Logs in an admin.
+
+---
+
+## **4. Admin Logout**
+- **Endpoint**: `/admin/logout`
+- **Method**: `POST`
+- **Request Body**: None
+- **Description**: Logs out the currently authenticated admin.
+
+---
+
+## **5. Update Password**
+- **Endpoint**: `/admin/update-password`
+- **Method**: `POST`
+- **Request Body**:
+  ```json
+  {
+    "oldPassword": "string",
+    "newPassword": "string"
+  }
+  ```
+- **Description**: Updates the admin's password.
+
+---
+
+## **6. Get All Users**
+- **Endpoint**: `/admin/users`
+- **Method**: `GET`
+- **Request Body**: None
+- **Description**: Retrieves a list of all users.
+
+---
+
+## **7. Get Single User Details**
+- **Endpoint**: `/admin/users/:userId`
+- **Method**: `GET`
+- **Request Body**: None
+- **Path Parameter**:
+  - `userId`: A valid MongoDB ObjectId.
+- **Description**: Retrieves details of a specific user.
+
+---
+
+## **8. Update User Info**
+- **Endpoint**: `/admin/users/:userId`
+- **Method**: `PATCH`
+- **Request Body**:
+  ```json
+  {
+    "name": "string (optional)",
+    "mobile": "string (optional)",
+    "wallet": "number (optional)",
+    "password": "string (optional)"
+  }
+  ```
+- **Path Parameter**:
+  - `userId`: A valid MongoDB ObjectId.
+- **Description**: Updates the information of a specific user.
+
+---
+
+## **9. Activate/Deactivate User**
+- **Endpoint**: `/admin/users/:userId/active`
+- **Method**: `PATCH`
+- **Request Body**:
+  ```json
+  {
+    "isActive": "boolean"
+  }
+  ```
+- **Path Parameter**:
+  - `userId`: A valid MongoDB ObjectId.
+- **Description**: Activates or deactivates a user.
+
+---
+
+## **10. Withdraw History**
+- **Endpoint**: `/admin/withdraw-history`
+- **Method**: `GET`
+- **Request Body**: None
+- **Description**: Retrieves the withdraw history.
+
+---
+
+## **11. Deposit History**
+- **Endpoint**: `/admin/deposit-history`
+- **Method**: `GET`
+- **Request Body**: None
+- **Description**: Retrieves the deposit history.
+
+---
+
+## **12. Transfer Funds**
+- **Endpoint**: `/admin/users/:userId/transfer-funds`
+- **Method**: `POST`
+- **Request Body**:
+  ```json
+  {
+    "amount": "number",
+    "type": "string (credit or debit)",
+    "note": "string (optional)"
+  }
+  ```
+- **Path Parameter**:
+  - `userId`: A valid MongoDB ObjectId.
+- **Description**: Transfers funds (credit or debit) to a user.
+
+---
+
+## **13. Dashboard Stats**
+- **Endpoint**: `/admin/dashboard-stats`
+- **Method**: `GET`
+- **Request Body**: None
+- **Description**: Retrieves admin dashboard statistics.
+
+---
+
+### Notes:
+- All routes require authentication via `authMiddleware.authUser` and `adminAuth` unless otherwise specified.
+- Validation errors will return a `400 Bad Request` response with details of the validation errors.
+
+---
+
+You can copy this content into a `README.md` file or any documentation file as needed. Let me know if you need further assistance!

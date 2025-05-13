@@ -3,11 +3,16 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import App from './App.jsx'
-
+import HeaderContext from './context/HeaderContext.jsx'
+import ProtectedRoute from './Pages/Login/ProtectedRoute.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
-    <App/>
+    <HeaderContext>
+    <ProtectedRoute>
+      <App/>
+    </ProtectedRoute>
+    </HeaderContext>
     </BrowserRouter>
   </StrictMode>,
 )

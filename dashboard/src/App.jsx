@@ -11,6 +11,9 @@ import WithdrawList from './Pages/WithdrawList/WithdrawList';
 import DepositList from './Pages/DepositList/DepositList';
 import Deposit from './Pages/Deposit/Deposit';
 import Withdraw from './Pages/Withdraw/Withdraw';
+import ChangePassword from './Pages/ChangePassword/ChangePassword';
+import ViewUserDetail from './Pages/UserList/ViewUserDetail';
+import DepositFund from './Pages/Deposit/DepositFund';
 
 function App() {
   return (
@@ -28,6 +31,9 @@ function App() {
         <Route path="admin/depositlist" element={<DepositList />} />
         <Route path="admin/deposit" element={<Deposit />} />
         <Route path="admin/withdraw" element={<Withdraw />} />
+        <Route path="admin/changepassword" element={<ChangePassword />} />
+        <Route path="/admin/userlist/viewuserdetails" element={<ViewUserDetail />} />
+        <Route path="/admin/deposit/depositfund" element={<DepositFund />} />
       </Route>
     </Routes>
   );

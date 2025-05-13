@@ -1,6 +1,8 @@
 import React from 'react'
 import Btn from '../../components/Btn'
+import { useNavigate } from 'react-router-dom'
 function Deposit() {
+  const navigate=useNavigate()
     const data=[
         {
           "Sr": 1,
@@ -68,7 +70,9 @@ function Deposit() {
                   <td className='p-4'>{itm['Deposit Amount']}</td>
                   <td className='p-4'>{itm['Request Date']}</td>
                   <td className='p-4'>{itm.Status}</td>
-                  <td className='p-4 flex justify-center items-center'>{<Btn type='Get'/>}</td>
+                  <td
+                  onClick={()=>navigate('/admin/deposit/depositfund')}
+                   className='p-4 flex justify-center items-center'>{<Btn type='Get'/>}</td>
                 </tr>
               ))}
             </tbody>

@@ -3,6 +3,11 @@ const router = express.Router();
 const { body } = require("express-validator");
 const userController = require("../controllers/user.controller");
 const authMiddleware = require("../middlewares/auth.middlewares");
+const {refreshAccessToken}=require('../Middlewares/auth.middlewares')
+
+
+
+router.post("/refresh-token", refreshAccessToken);
 
 //User Registration Route
 router.post(
@@ -70,6 +75,6 @@ router.post(
 router.get("/profile", authMiddleware.authUser, userController.getUserProfile);
 
 // Logout User Route
-router.get("/logout", authMiddleware.authUser, userController.logoutUser);
+router.post("/logout", userController.logoutUser);
 
 module.exports = router;

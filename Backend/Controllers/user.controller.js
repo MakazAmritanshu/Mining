@@ -120,11 +120,20 @@ module.exports.registerUser = async (req, res, next) => {
     // Build referral tree for uplines
     await User.buildReferralTreeForNewUser(existingUser);
 
-    const token = existingUser.generateAuthToken();
+    const accessToken = existingUser.generateAccessToken();
+    const refreshToken = existingUser.generateRefreshToken();
+
+    // In registerUser, change this:
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      secure: false, // <--- CHANGE TO false FOR LOCALHOST
+      sameSite: "Lax", // <--- MATCH loginUser
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
 
     return res.status(201).json({
       message: "User registered successfully",
-      token,
+      accessToken,
     });
   } catch (error) {
     console.error("Error registering user:", error);
@@ -160,17 +169,19 @@ module.exports.loginUser = async (req, res, next) => {
     }
 
     // Generate JWT token
-    const token = user.generateAuthToken();
+    const accessToken = user.generateAccessToken();
+    const refreshToken = user.generateRefreshToken();
 
     // Set HTTP-only cookie
-    res.cookie("token", token, {
+    res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
-      secure: false,
-      sameSite: "Lax",
+      secure: false, // OK for localhost
+      sameSite: "Lax", // or "None" with secure: true if on HTTPS
+      maxAge: 7 * 24 * 60 * 60 * 1000, // optional: 7 days
     });
 
     // Respond
-    return res.status(200).json({ token });
+    return res.status(200).json({ accessToken: accessToken });
   } catch (error) {
     console.error("Error logging in user:", error);
     next(error);
@@ -229,7 +240,6 @@ module.exports.addBankAccount = async (req, res) => {
 // Logout User
 
 module.exports.logoutUser = async (req, res, next) => {
-  res.clearCookie("token");
-  const token = req.cookies.token || req.headers.authorization.split(" ")[1];
-  res.status(200).json({ message: "Logged out" });
+  res.clearCookie("refreshToken", { httpOnly: true, sameSite: "lax", secure: false, path: "/" });
+  return res.status(200).json({ message: "Logged out" });
 };

@@ -10,7 +10,12 @@ import { BiMoneyWithdraw } from "react-icons/bi";
 import { RiLogoutCircleRFill } from "react-icons/ri";
 import { RiLockPasswordFill } from "react-icons/ri";
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import {HeadContext}  from '../context/HeaderContext';
+
 function Navbar() {
+   const {header, setHeader}= useContext(HeadContext)
+
     const navigate= useNavigate()
     const data= [
         {
@@ -29,12 +34,12 @@ function Navbar() {
           "navigateTo": "/admin/userlist"
         },
         {
-          "label": "Withdraw List",
+          "label": "Withdraw History",
           "image": <PiHandWithdrawFill className='text-[#009494] text-3xl'/>,
           "navigateTo": "/admin/withdrawlist"
         },
         {
-          "label": "Deposit List",
+          "label": "Deposit History",
           "image": <PiHandDepositFill className='text-[#009494] text-3xl'/>,
           "navigateTo": "/admin/depositlist"
         },
@@ -51,13 +56,8 @@ function Navbar() {
         {
           "label": "Change Password",
           "image": <RiLockPasswordFill  className='text-[#009494] text-3xl'/>,
-          "navigateTo": "/admin/withdraw"
+          "navigateTo": "/admin/changepassword"
         },
-        {
-          "label": "Logout",
-          "image": <RiLogoutCircleRFill className='text-[#009494] text-3xl'/>,
-          "navigateTo": "/login"
-        }
       ]
       
   return (
@@ -67,15 +67,26 @@ function Navbar() {
             <h2 className='text-white font-medium text-3xl'>Admin</h2>    
         </div>
         <div>
-            <ul className='flex flex-col items-start justify-center mt-5'>
+            <ul className='flex flex-col items-start justify-center mt-5 '>
                 {data.map((item, index) => (
                     <li
-                    onClick={()=>navigate(item.navigateTo)}
+                    onClick={()=>{
+                      navigate(item.navigateTo)
+                      setHeader(item.label)
+                    }}
                      key={index} className='flex items-center flex-wrap gap-4 w-full text-white text-xl p-4 hover:bg-teal-500 cursor-pointer transition duration-200'>
                         <span>{item.image}</span>
                         <span>{item.label}</span>
                     </li>
                 ))}
+                <li onClick={()=>{
+                    localStorage.removeItem("token")
+                    navigate("/login")
+                }}
+                 className='flex items-center flex-wrap gap-4 w-full text-white text-xl p-4 hover:bg-teal-500 cursor-pointer transition duration-200'>
+                        <span><RiLogoutCircleRFill className='text-[#009494] text-3xl'/></span>
+                        <span>Logout</span>
+                </li>
             </ul>
         </div>
 
